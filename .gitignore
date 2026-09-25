@@ -1,0 +1,10 @@
+# This repo only carries the viewer itself (viz/) for GitHub Pages -- the
+# asset-generation pipeline and its raw inputs stay in the local project.
+data/
+scripts/
+CLAUDE.md
+
+__pycache__/
+*.pyc
+
+.DS_Store

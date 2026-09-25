@@ -1,0 +1,548 @@
+{
+  "generated_at": "2026-09-25T10:48:17Z",
+  "variables": {
+    "daily_probability": {
+      "label": "Burn probability",
+      "unit": "%",
+      "legend_type": "gradient",
+      "colormap": "YlOrRd",
+      "domain": [
+        0.0,
+        1.0
+      ],
+      "gradient_stops": [
+        "#ffffcc",
+        "#ffeda0",
+        "#fed976",
+        "#feb24c",
+        "#fd8c3c",
+        "#fc4d2a",
+        "#e2191c",
+        "#bb0026",
+        "#800026"
+      ]
+    },
+    "flame_length_max": {
+      "label": "Flame length",
+      "unit": "m",
+      "legend_type": "gradient",
+      "colormap": "YlOrBr",
+      "domain": [
+        0.0,
+        15.0
+      ],
+      "gradient_stops": [
+        "#ffffe5",
+        "#fff7bc",
+        "#fee390",
+        "#fec34f",
+        "#fe9829",
+        "#eb6f14",
+        "#cb4b02",
+        "#983404",
+        "#662506"
+      ]
+    }
+  },
+  "events": [
+    {
+      "id": "2024-06-29T120000",
+      "label": "2024-06-29 12:00",
+      "populated": true,
+      "scenarios": {
+        "none": {
+          "label": "Control",
+          "bounds": {
+            "west": 1.6970206441393658,
+            "south": 41.18651342378379,
+            "east": 2.34861364418577,
+            "north": 41.683326026809205
+          },
+          "variables": {
+            "daily_probability": "assets/2024-06-29T120000/none_daily_probability.png",
+            "flame_length_max": "assets/2024-06-29T120000/none_flame_length_max.png"
+          },
+          "expected_burned_area_ha": 1565.205
+        },
+        "carmine_nbs": {
+          "label": "NbS",
+          "bounds": {
+            "west": 1.6970206441393658,
+            "south": 41.18651342378379,
+            "east": 2.34861364418577,
+            "north": 41.683326026809205
+          },
+          "variables": {
+            "daily_probability": "assets/2024-06-29T120000/carmine_nbs_daily_probability.png",
+            "flame_length_max": "assets/2024-06-29T120000/carmine_nbs_flame_length_max.png"
+          },
+          "expected_burned_area_ha": 315.51552734375
+        }
+      },
+      "ignition": {
+        "lat": 41.435344,
+        "lon": 2.023936,
+        "wind_direction_from": 270.0,
+        "wind_direction_from_compass": "W",
+        "wind_arrow_bearing": 90.0,
+        "wind_arrow_bearing_compass": "E"
+      },
+      "query_path": "assets/2024-06-29T120000/query.json"
+    },
+    {
+      "id": "2024-06-30T120000",
+      "label": "2024-06-30 12:00",
+      "populated": true,
+      "scenarios": {
+        "none": {
+          "label": "Control",
+          "bounds": {
+            "west": 1.703955992388889,
+            "south": 41.16662738346774,
+            "east": 2.355163874236849,
+            "north": 41.66331136114839
+          },
+          "variables": {
+            "daily_probability": "assets/2024-06-30T120000/none_daily_probability.png",
+            "flame_length_max": "assets/2024-06-30T120000/none_flame_length_max.png"
+          },
+          "expected_burned_area_ha": 2077.585
+        },
+        "carmine_nbs": {
+          "label": "NbS",
+          "bounds": {
+            "west": 1.703955992388889,
+            "south": 41.16662738346774,
+            "east": 2.355163874236849,
+            "north": 41.66331136114839
+          },
+          "variables": {
+            "daily_probability": "assets/2024-06-30T120000/carmine_nbs_daily_probability.png",
+            "flame_length_max": "assets/2024-06-30T120000/carmine_nbs_flame_length_max.png"
+          },
+          "expected_burned_area_ha": 1229.753046875
+        }
+      },
+      "ignition": {
+        "lat": 41.415319,
+        "lon": 2.03073,
+        "wind_direction_from": 270.0,
+        "wind_direction_from_compass": "W",
+        "wind_arrow_bearing": 90.0,
+        "wind_arrow_bearing_compass": "E"
+      },
+      "query_path": "assets/2024-06-30T120000/query.json"
+    },
+    {
+      "id": "2024-07-01T120000",
+      "label": "2024-07-01 12:00",
+      "populated": true,
+      "scenarios": {
+        "none": {
+          "label": "Control",
+          "bounds": {
+            "west": 1.7309233558297779,
+            "south": 41.15287997764411,
+            "east": 2.381974101955842,
+            "north": 41.649444106045344
+          },
+          "variables": {
+            "daily_probability": "assets/2024-07-01T120000/none_daily_probability.png",
+            "flame_length_max": "assets/2024-07-01T120000/none_flame_length_max.png"
+          },
+          "expected_burned_area_ha": 1675.79546875
+        },
+        "carmine_nbs": {
+          "label": "NbS",
+          "bounds": {
+            "west": 1.7309233558297779,
+            "south": 41.15287997764411,
+            "east": 2.381974101955842,
+            "north": 41.649444106045344
+          },
+          "variables": {
+            "daily_probability": "assets/2024-07-01T120000/carmine_nbs_daily_probability.png",
+            "flame_length_max": "assets/2024-07-01T120000/carmine_nbs_flame_length_max.png"
+          },
+          "expected_burned_area_ha": 1182.09921875
+        }
+      },
+      "ignition": {
+        "lat": 41.401558,
+        "lon": 2.057514,
+        "wind_direction_from": 225.0,
+        "wind_direction_from_compass": "SW",
+        "wind_arrow_bearing": 45.0,
+        "wind_arrow_bearing_compass": "NE"
+      },
+      "query_path": "assets/2024-07-01T120000/query.json"
+    },
+    {
+      "id": "2024-07-02T120000",
+      "label": "2024-07-02 12:00",
+      "populated": true,
+      "scenarios": {
+        "none": {
+          "label": "Control",
+          "bounds": {
+            "west": 1.755107958060934,
+            "south": 41.1519554960898,
+            "east": 2.405890754786868,
+            "north": 41.64848026952265
+          },
+          "variables": {
+            "daily_probability": "assets/2024-07-02T120000/none_daily_probability.png",
+            "flame_length_max": "assets/2024-07-02T120000/none_flame_length_max.png"
+          },
+          "expected_burned_area_ha": 1256.4184375
+        },
+        "carmine_nbs": {
+          "label": "NbS",
+          "bounds": {
+            "west": 1.755107958060934,
+            "south": 41.1519554960898,
+            "east": 2.405890754786868,
+            "north": 41.64848026952265
+          },
+          "variables": {
+            "daily_probability": "assets/2024-07-02T120000/carmine_nbs_daily_probability.png",
+            "flame_length_max": "assets/2024-07-02T120000/carmine_nbs_flame_length_max.png"
+          },
+          "expected_burned_area_ha": 883.76671875
+        }
+      },
+      "ignition": {
+        "lat": 41.400586,
+        "lon": 2.081575,
+        "wind_direction_from": 225.0,
+        "wind_direction_from_compass": "SW",
+        "wind_arrow_bearing": 45.0,
+        "wind_arrow_bearing_compass": "NE"
+      },
+      "query_path": "assets/2024-07-02T120000/query.json"
+    },
+    {
+      "id": "2026-07-05T120000",
+      "label": "2026-07-05 12:00",
+      "populated": true,
+      "scenarios": {
+        "none": {
+          "label": "Control",
+          "bounds": {
+            "west": 1.7309365964869048,
+            "south": 41.152937509227456,
+            "east": 2.3819877684246156,
+            "north": 41.64950196240029
+          },
+          "variables": {
+            "daily_probability": "assets/2026-07-05T120000/none_daily_probability.png",
+            "flame_length_max": "assets/2026-07-05T120000/none_flame_length_max.png"
+          },
+          "expected_burned_area_ha": 749.00359375
+        },
+        "carmine_nbs": {
+          "label": "NbS",
+          "bounds": {
+            "west": 1.7309365964869048,
+            "south": 41.152937509227456,
+            "east": 2.3819877684246156,
+            "north": 41.64950196240029
+          },
+          "variables": {
+            "daily_probability": "assets/2026-07-05T120000/carmine_nbs_daily_probability.png",
+            "flame_length_max": "assets/2026-07-05T120000/carmine_nbs_flame_length_max.png"
+          },
+          "expected_burned_area_ha": 535.3499218750001
+        },
+        "none_SSP5-2050": {
+          "label": "Control \u2014 SSP5-8.5 (2050)",
+          "bounds": {
+            "west": 1.7309365964869048,
+            "south": 41.152937509227456,
+            "east": 2.3819877684246156,
+            "north": 41.64950196240029
+          },
+          "variables": {
+            "daily_probability": "assets/2026-07-05T120000/none_SSP5-2050_daily_probability.png",
+            "flame_length_max": "assets/2026-07-05T120000/none_SSP5-2050_flame_length_max.png"
+          },
+          "expected_burned_area_ha": 1261.5328125
+        },
+        "carmine_nbs_SSP5-2050": {
+          "label": "NbS \u2014 SSP5-8.5 (2050)",
+          "bounds": {
+            "west": 1.7309365964869048,
+            "south": 41.152937509227456,
+            "east": 2.3819877684246156,
+            "north": 41.64950196240029
+          },
+          "variables": {
+            "daily_probability": "assets/2026-07-05T120000/carmine_nbs_SSP5-2050_daily_probability.png",
+            "flame_length_max": "assets/2026-07-05T120000/carmine_nbs_SSP5-2050_flame_length_max.png"
+          },
+          "expected_burned_area_ha": 837.329375
+        }
+      },
+      "ignition": {
+        "lat": 41.401558,
+        "lon": 2.057514,
+        "wind_direction_from": 199.0,
+        "wind_direction_from_compass": "SSW",
+        "wind_arrow_bearing": 19.0,
+        "wind_arrow_bearing_compass": "NNE"
+      },
+      "query_path": "assets/2026-07-05T120000/query.json"
+    },
+    {
+      "id": "2026-08-28T120000",
+      "label": "2026-08-28 12:00",
+      "populated": true,
+      "scenarios": {
+        "none": {
+          "label": "Control",
+          "bounds": {
+            "west": 1.697056828531153,
+            "south": 41.186556871083205,
+            "east": 2.3486501028589446,
+            "north": 41.68336968323679
+          },
+          "variables": {
+            "daily_probability": "assets/2026-08-28T120000/none_daily_probability.png",
+            "flame_length_max": "assets/2026-08-28T120000/none_flame_length_max.png"
+          },
+          "expected_burned_area_ha": 460.258359375
+        },
+        "carmine_nbs": {
+          "label": "NbS",
+          "bounds": {
+            "west": 1.697056828531153,
+            "south": 41.186556871083205,
+            "east": 2.3486501028589446,
+            "north": 41.68336968323679
+          },
+          "variables": {
+            "daily_probability": "assets/2026-08-28T120000/carmine_nbs_daily_probability.png",
+            "flame_length_max": "assets/2026-08-28T120000/carmine_nbs_flame_length_max.png"
+          },
+          "expected_burned_area_ha": 94.267626953125
+        },
+        "none_SSP5-2050": {
+          "label": "Control \u2014 SSP5-8.5 (2050)",
+          "bounds": {
+            "west": 1.697056828531153,
+            "south": 41.186556871083205,
+            "east": 2.3486501028589446,
+            "north": 41.68336968323679
+          },
+          "variables": {
+            "daily_probability": "assets/2026-08-28T120000/none_SSP5-2050_daily_probability.png",
+            "flame_length_max": "assets/2026-08-28T120000/none_SSP5-2050_flame_length_max.png"
+          },
+          "expected_burned_area_ha": 1041.499453125
+        },
+        "carmine_nbs_SSP5-2050": {
+          "label": "NbS \u2014 SSP5-8.5 (2050)",
+          "bounds": {
+            "west": 1.697056828531153,
+            "south": 41.186556871083205,
+            "east": 2.3486501028589446,
+            "north": 41.68336968323679
+          },
+          "variables": {
+            "daily_probability": "assets/2026-08-28T120000/carmine_nbs_SSP5-2050_daily_probability.png",
+            "flame_length_max": "assets/2026-08-28T120000/carmine_nbs_SSP5-2050_flame_length_max.png"
+          },
+          "expected_burned_area_ha": 170.38720703125
+        }
+      },
+      "ignition": {
+        "lat": 41.435344,
+        "lon": 2.023936,
+        "wind_direction_from": 278.0,
+        "wind_direction_from_compass": "W",
+        "wind_arrow_bearing": 98.0,
+        "wind_arrow_bearing_compass": "E"
+      },
+      "query_path": "assets/2026-08-28T120000/query.json"
+    }
+  ],
+  "static_variables": {
+    "fbfm40": {
+      "label": "Fuel model (Scott & Burgan 40)",
+      "legend_type": "swatches",
+      "swatches": [
+        {
+          "label": "Urban/Developed",
+          "color": "#9C9C9C"
+        },
+        {
+          "label": "Snow/Ice",
+          "color": "#DCEEFF"
+        },
+        {
+          "label": "Agriculture",
+          "color": "#F3E2A9"
+        },
+        {
+          "label": "Water",
+          "color": "#5B9BD5"
+        },
+        {
+          "label": "Barren",
+          "color": "#D6D2C4"
+        },
+        {
+          "label": "Grass (GR)",
+          "color": "#eccd58"
+        },
+        {
+          "label": "Grass-Shrub (GS)",
+          "color": "#b2be5c"
+        },
+        {
+          "label": "Shrub (SH)",
+          "color": "#ce8d52"
+        },
+        {
+          "label": "Timber-Understory (TU)",
+          "color": "#7ab877"
+        },
+        {
+          "label": "Timber-Litter (TL)",
+          "color": "#468246"
+        },
+        {
+          "label": "Slash-Blowdown (SB)",
+          "color": "#c56e6e"
+        }
+      ],
+      "codes": {
+        "91": "Urban/Developed",
+        "92": "Snow/Ice",
+        "93": "Agriculture",
+        "98": "Water",
+        "99": "Barren",
+        "101": "GR1 (Grass)",
+        "102": "GR2 (Grass)",
+        "103": "GR3 (Grass)",
+        "104": "GR4 (Grass)",
+        "105": "GR5 (Grass)",
+        "106": "GR6 (Grass)",
+        "107": "GR7 (Grass)",
+        "108": "GR8 (Grass)",
+        "109": "GR9 (Grass)",
+        "121": "GS1 (Grass-Shrub)",
+        "122": "GS2 (Grass-Shrub)",
+        "123": "GS3 (Grass-Shrub)",
+        "124": "GS4 (Grass-Shrub)",
+        "141": "SH1 (Shrub)",
+        "142": "SH2 (Shrub)",
+        "143": "SH3 (Shrub)",
+        "144": "SH4 (Shrub)",
+        "145": "SH5 (Shrub)",
+        "146": "SH6 (Shrub)",
+        "147": "SH7 (Shrub)",
+        "148": "SH8 (Shrub)",
+        "149": "SH9 (Shrub)",
+        "161": "TU1 (Timber-Understory)",
+        "162": "TU2 (Timber-Understory)",
+        "163": "TU3 (Timber-Understory)",
+        "164": "TU4 (Timber-Understory)",
+        "165": "TU5 (Timber-Understory)",
+        "181": "TL1 (Timber-Litter)",
+        "182": "TL2 (Timber-Litter)",
+        "183": "TL3 (Timber-Litter)",
+        "184": "TL4 (Timber-Litter)",
+        "185": "TL5 (Timber-Litter)",
+        "186": "TL6 (Timber-Litter)",
+        "187": "TL7 (Timber-Litter)",
+        "188": "TL8 (Timber-Litter)",
+        "189": "TL9 (Timber-Litter)",
+        "201": "SB1 (Slash-Blowdown)",
+        "202": "SB2 (Slash-Blowdown)",
+        "203": "SB3 (Slash-Blowdown)",
+        "204": "SB4 (Slash-Blowdown)"
+      }
+    },
+    "cbh": {
+      "label": "Canopy base height",
+      "unit": "m",
+      "legend_type": "gradient",
+      "colormap": "YlGnBu",
+      "domain": [
+        0.0,
+        8.0
+      ],
+      "gradient_stops": [
+        "#ffffd9",
+        "#edf8b1",
+        "#c6e9b4",
+        "#7ecdbb",
+        "#40b5c4",
+        "#1d90c0",
+        "#225da8",
+        "#243392",
+        "#081d58"
+      ]
+    },
+    "cc": {
+      "label": "Canopy cover",
+      "unit": "%",
+      "legend_type": "gradient",
+      "colormap": "Greens",
+      "domain": [
+        0.0,
+        100.0
+      ],
+      "gradient_stops": [
+        "#f7fcf5",
+        "#e5f5e0",
+        "#c7e9c0",
+        "#a0d99b",
+        "#73c476",
+        "#40aa5d",
+        "#228a44",
+        "#006c2c",
+        "#00441b"
+      ]
+    }
+  },
+  "static_scenarios": {
+    "none": {
+      "label": "Control",
+      "bounds": {
+        "west": 1.7551075353526329,
+        "south": 41.15195548656956,
+        "east": 2.405890332779355,
+        "north": 41.64848026053709
+      },
+      "variables": {
+        "fbfm40": "assets/static_inputs/none_fbfm40.png",
+        "cbh": "assets/static_inputs/none_cbh.png",
+        "cc": "assets/static_inputs/none_cc.png"
+      }
+    },
+    "carmine_nbs": {
+      "label": "NbS",
+      "bounds": {
+        "west": 1.7551075353526329,
+        "south": 41.15195548656956,
+        "east": 2.405890332779355,
+        "north": 41.64848026053709
+      },
+      "variables": {
+        "fbfm40": "assets/static_inputs/carmine_nbs_fbfm40.png",
+        "cbh": "assets/static_inputs/carmine_nbs_cbh.png",
+        "cc": "assets/static_inputs/carmine_nbs_cc.png"
+      }
+    }
+  },
+  "static_query_path": "assets/static_inputs/query.json",
+  "overlays": {
+    "collserola_pegs": {
+      "label": "NbS intervention areas",
+      "path": "assets/collserola_pegs.geojson",
+      "area_ha": 1948.201182389853
+    }
+  }
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carmine NbS Fire-Risk Viewer</title>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="vendor/leaflet-side-by-side/leaflet-side-by-side.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header id="app-header">
+  <div class="brand">
+    <img class="logo" src="assets/carmine_logo_same_green.svg" alt="Carmine">
+    <h1>Carmine NbS Fire-Risk Viewer</h1>
+  </div>
+  <div class="controls">
+    <label id="event-label">
+      Event
+      <select id="event-select"></select>
+    </label>
+    <label id="left-scenario-label">
+      Left
+      <select id="left-scenario-select" class="scenario-select"></select>
+    </label>
+    <label id="right-scenario-label">
+      Right
+      <select id="right-scenario-select" class="scenario-select"></select>
+    </label>
+    <div class="variable-toggle" id="variable-toggle" role="group" aria-label="Variable"></div>
+    <label class="overlay-toggle">
+      <input type="checkbox" id="overlay-toggle">
+      NbS intervention areas
+    </label>
+    <span id="inspect-hint">Click the map for point values</span>
+    <button type="button" id="cost-effectiveness-btn">Estimate cost-effectiveness</button>
+  </div>
+</header>
+
+<main id="map-wrap">
+  <div id="map"></div>
+  <div class="side-label side-label-left">Control</div>
+  <div class="side-label side-label-right">NbS</div>
+  <div id="loading" hidden>Loading&hellip;</div>
+  <div id="empty-state" hidden>No data available for this event yet.</div>
+</main>
+
+<div id="cost-modal-overlay" class="modal-overlay" hidden>
+  <div class="modal" role="dialog" aria-labelledby="cost-modal-title">
+    <h2 id="cost-modal-title">Cost-effectiveness of adaptation measures</h2>
+    <p class="modal-note">Estimate for event: <strong id="cost-modal-event"></strong></p>
+
+    <label class="modal-field">
+      Adaptation actions cost per hectare and year (&euro;/ha/year)
+      <input type="number" id="cost-input-adaptation" min="0" step="any" inputmode="decimal">
+    </label>
+    <label class="modal-field">
+      Suppression cost per burned hectare (&euro;/ha)
+      <input type="number" id="cost-input-suppression" min="0" step="any" inputmode="decimal">
+    </label>
+    <label class="modal-field">
+      Economic loss per burned hectare (&euro;/ha)
+      <input type="number" id="cost-input-loss" min="0" step="any" inputmode="decimal">
+    </label>
+
+    <div class="modal-actions">
+      <button type="button" id="cost-calculate-btn">Calculate</button>
+      <button type="button" id="cost-modal-close-btn">Close</button>
+    </div>
+
+    <div id="cost-results" hidden>
+      <p id="cost-adaptation-summary"></p>
+      <table id="cost-results-table">
+        <thead>
+          <tr>
+            <th>Scenario</th>
+            <th>Expected burned area (ha)</th>
+            <th>Economic cost (&euro;)</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<footer id="legend">
+  <span id="legend-title"></span>
+  <div id="legend-gradient">
+    <span id="legend-min"></span>
+    <div id="legend-bar"></div>
+    <span id="legend-max"></span>
+  </div>
+  <div id="legend-swatches" hidden></div>
+</footer>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="vendor/leaflet-side-by-side/leaflet-side-by-side.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,423 @@
+:root {
+  color-scheme: light;
+  --ink: #1f2937;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --bg: #ffffff;
+  --accent: #b45309;
+  --overlay: rgba(255, 255, 255, 0.7);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ink: #e8e6e2;
+    --muted: #9199a3;
+    --border: #2b2e35;
+    --bg: #14161a;
+    --accent: #e2934a;
+    --overlay: rgba(20, 22, 26, 0.75);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #e8e6e2;
+  --muted: #9199a3;
+  --border: #2b2e35;
+  --bg: #14161a;
+  --accent: #e2934a;
+  --overlay: rgba(20, 22, 26, 0.75);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+#app-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+#app-header h1 {
+  font-size: 16px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand .logo {
+  height: 32px;
+  width: auto;
+  display: block;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.controls label {
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.controls label[hidden] {
+  display: none;
+}
+
+#event-label.disabled,
+#left-scenario-label.disabled,
+#right-scenario-label.disabled {
+  opacity: 0.45;
+}
+
+.overlay-toggle {
+  cursor: pointer;
+}
+
+.overlay-toggle input {
+  cursor: pointer;
+}
+
+#inspect-hint {
+  font-size: 12px;
+  color: var(--muted);
+  margin-left: auto;
+}
+
+#event-select,
+.scenario-select {
+  font-size: 13px;
+  padding: 4px 6px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.scenario-select:disabled {
+  opacity: 0.45;
+}
+
+#cost-effectiveness-btn {
+  font-size: 13px;
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+#cost-effectiveness-btn:hover {
+  border-color: var(--accent);
+}
+
+.variable-toggle {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.variable-toggle button {
+  font-size: 13px;
+  padding: 5px 10px;
+  border: none;
+  background: var(--bg);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.variable-toggle button + button {
+  border-left: 1px solid var(--border);
+}
+
+.variable-toggle button[aria-pressed="true"] {
+  background: var(--accent);
+  color: #fff;
+}
+
+#map-wrap {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+#map {
+  position: absolute;
+  inset: 0;
+}
+
+.side-label {
+  position: absolute;
+  top: 10px;
+  z-index: 1000;
+  background: rgba(31, 41, 55, 0.75);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 3px 9px;
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.side-label-left {
+  left: 10px;
+}
+
+.side-label-right {
+  right: 10px;
+}
+
+#loading[hidden],
+#empty-state[hidden] {
+  display: none;
+}
+
+#loading,
+#empty-state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--overlay);
+  font-size: 14px;
+  color: var(--muted);
+  z-index: 1100;
+}
+
+#legend {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 16px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+#legend-title {
+  font-weight: 600;
+  color: var(--ink);
+  margin-right: 4px;
+}
+
+/* [hidden] must win over the display:flex rules below -- see the
+   #loading/#empty-state fix above for why a plain ID selector alone isn't
+   enough to let the `hidden` attribute actually hide these elements. */
+#legend-gradient[hidden],
+#legend-swatches[hidden] {
+  display: none;
+}
+
+#legend-gradient {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#legend-bar {
+  height: 10px;
+  width: 220px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+}
+
+#legend-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+}
+
+.legend-swatch {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.legend-swatch-chip {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  flex: none;
+}
+
+.point-popup {
+  font-size: 12px;
+}
+
+.point-popup-coords {
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.point-popup table {
+  border-collapse: collapse;
+}
+
+.point-popup th,
+.point-popup td {
+  padding: 3px 8px 3px 0;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.point-popup thead th {
+  color: var(--muted);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+}
+
+.point-popup tbody th {
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.ignition-icon {
+  background: transparent;
+  border: none;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 2000;
+}
+
+.modal-overlay[hidden] {
+  display: none;
+}
+
+.modal {
+  background: var(--bg);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  width: 100%;
+  max-width: 460px;
+  max-height: calc(100% - 32px);
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+}
+
+.modal h2 {
+  font-size: 16px;
+  margin: 0 0 6px;
+}
+
+.modal-note {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0 0 16px;
+}
+
+.modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.modal-field input {
+  font-size: 14px;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.modal-actions button {
+  font-size: 13px;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+#cost-calculate-btn {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+#cost-results {
+  margin-top: 18px;
+  border-top: 1px solid var(--border);
+  padding-top: 14px;
+}
+
+#cost-adaptation-summary {
+  font-size: 13px;
+  margin: 0 0 10px;
+}
+
+#cost-results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+#cost-results-table th,
+#cost-results-table td {
+  padding: 5px 6px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+#cost-results-table thead th {
+  color: var(--muted);
+  font-weight: 600;
+}
