@@ -75,11 +75,24 @@ body {
   display: block;
 }
 
+/* Row 1: brand + actions (cost-effectiveness, language). Row 2: the map
+   controls, forced onto their own line via flex-basis: 100%. */
 .controls {
+  order: 2;
+  flex-basis: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 16px;
+}
+
+.actions {
+  order: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
 }
 
 .controls label {
@@ -139,6 +152,19 @@ body {
 }
 
 #cost-effectiveness-btn:hover {
+  border-color: var(--accent);
+}
+
+.lang-switch {
+  font-size: 13px;
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.lang-switch:hover {
   border-color: var(--accent);
 }
 

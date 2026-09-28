@@ -1,6 +1,108 @@
 (function () {
   "use strict";
 
+  // ---- i18n ----
+  // index.html (English) and index_ca.html (Catalan) share this script; the
+  // page's <html lang> picks the language. Static text lives in each HTML
+  // file; this covers strings built here plus the (English-only) labels
+  // that come from manifest.json.
+  var LANG = document.documentElement.lang === "ca" ? "ca" : "en";
+  var LOCALE = LANG === "ca" ? "ca-ES" : "en-US";
+
+  var STRINGS = {
+    en: {
+      zoomIn: "Zoom in",
+      zoomOut: "Zoom out",
+      code: "Code",
+      control: "Control",
+      nbs: "NbS",
+      loading: "Loading…",
+      pointDataFailed: "Failed to load point data: ",
+      ignitionPoint: "Ignition point",
+      windFrom: "Wind from",
+      spreadingToward: "spreading toward",
+      staticNotApplicable: "Not applicable to model input layers (same for every event)",
+      renderError: "Error rendering viewer: ",
+      noDataYet: " (no data yet)",
+      overlayFailed: "Failed to load NbS intervention areas: ",
+      enterAllFields: "Enter a number in all three fields.",
+      adaptationSummary: "Adaptation cost over 10 years (NbS intervention area: {area} ha): {cost}",
+      adaptationUnavailable: "NbS intervention area unavailable -- can't estimate adaptation cost.",
+      noData: "No data",
+      manifestFailed: "Failed to load manifest.json: ",
+    },
+    ca: {
+      zoomIn: "Apropa",
+      zoomOut: "Allunya",
+      code: "Codi",
+      control: "Control",
+      nbs: "SbN",
+      loading: "Carregant…",
+      pointDataFailed: "No s'han pogut carregar les dades del punt: ",
+      ignitionPoint: "Punt d'ignició",
+      windFrom: "Vent de",
+      spreadingToward: "avançant cap a",
+      staticNotApplicable: "No s'aplica a les capes d'entrada del model (són iguals per a tots els episodis)",
+      renderError: "Error en mostrar el visor: ",
+      noDataYet: " (encara sense dades)",
+      overlayFailed: "No s'han pogut carregar les àrees d'intervenció SbN: ",
+      enterAllFields: "Introduïu un número als tres camps.",
+      adaptationSummary: "Cost d'adaptació en 10 anys (àrea d'intervenció SbN: {area} ha): {cost}",
+      adaptationUnavailable: "L'àrea d'intervenció SbN no està disponible: no es pot estimar el cost d'adaptació.",
+      noData: "Sense dades",
+      manifestFailed: "No s'ha pogut carregar manifest.json: ",
+    },
+  };
+
+  function t(key) {
+    return STRINGS[LANG][key];
+  }
+
+  // English manifest label -> Catalan. Anything not listed is shown as-is
+  // (e.g. event date labels).
+  var MANIFEST_LABELS_CA = {
+    "Burn probability": "Probabilitat de crema",
+    "Flame length": "Longitud de flama",
+    "Fuel model (Scott & Burgan 40)": "Model de combustible (Scott & Burgan 40)",
+    "Canopy base height": "Alçada de la base de la capçada",
+    "Canopy cover": "Fracció de cabuda coberta",
+    "Control": "Control",
+    "NbS": "SbN",
+    "Control — SSP5-8.5 (2050)": "Control — SSP5-8.5 (2050)",
+    "NbS — SSP5-8.5 (2050)": "SbN — SSP5-8.5 (2050)",
+    "NbS intervention areas": "Àrees d'intervenció SbN",
+    "Urban/Developed": "Urbà/edificat",
+    "Snow/Ice": "Neu/gel",
+    "Agriculture": "Agrícola",
+    "Water": "Aigua",
+    "Barren": "Sense vegetació",
+    "Grass": "Herbaci",
+    "Grass-Shrub": "Herbaci-arbustiu",
+    "Shrub": "Arbustiu",
+    "Timber-Understory": "Arbrat amb sotabosc",
+    "Timber-Litter": "Fullaraca d'arbrat",
+    "Slash-Blowdown": "Restes de tala i ventades",
+  };
+
+  function trLabel(label) {
+    if (LANG === "en" || label == null) return label;
+    if (MANIFEST_LABELS_CA[label]) return MANIFEST_LABELS_CA[label];
+    // Composite labels like "Grass (GR)" (legend swatch) or "GR1 (Grass)"
+    // (fuel-model code): translate whichever half is a known label.
+    var m = /^(.+) \((.+)\)$/.exec(label);
+    if (m) return trLabel(m[1]) + " (" + trLabel(m[2]) + ")";
+    return label;
+  }
+
+  // Compass points only differ in West: English W -> Catalan O (Oest).
+  function trCompass(compass) {
+    return LANG === "ca" ? compass.replace(/W/g, "O") : compass;
+  }
+
+  function formatNumber(value, maxDigits) {
+    return value.toLocaleString(LOCALE, { maximumFractionDigits: maxDigits });
+  }
+
   var LEFT_BASE_SCENARIO = "none"; // Control
   var RIGHT_BASE_SCENARIO = "carmine_nbs"; // NbS
 
@@ -10,7 +112,8 @@
   var leftScenario = LEFT_BASE_SCENARIO;
   var rightScenario = RIGHT_BASE_SCENARIO;
 
-  var map = L.map("map", { zoomControl: true, minZoom: 3 });
+  var map = L.map("map", { zoomControl: false, minZoom: 3 });
+  L.control.zoom({ zoomInTitle: t("zoomIn"), zoomOutTitle: t("zoomOut") }).addTo(map);
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: "&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors",
     maxZoom: 18,
@@ -79,10 +182,10 @@
   // events have no SSP5-2050 climate variant) -- matches the same
   // base-scenario/climate-variant convention as LEFT_BASE_SCENARIO etc.
   var COST_SCENARIO_FALLBACK_LABELS = {
-    "none": "Control",
-    "carmine_nbs": "NbS",
-    "none_SSP5-2050": "Control — SSP5-8.5 (2050)",
-    "carmine_nbs_SSP5-2050": "NbS — SSP5-8.5 (2050)",
+    "none": trLabel("Control"),
+    "carmine_nbs": trLabel("NbS"),
+    "none_SSP5-2050": trLabel("Control — SSP5-8.5 (2050)"),
+    "carmine_nbs_SSP5-2050": trLabel("NbS — SSP5-8.5 (2050)"),
   };
   var COST_SCENARIO_KEYS = Object.keys(COST_SCENARIO_FALLBACK_LABELS);
 
@@ -132,15 +235,15 @@
     if (rawValue === null || rawValue === undefined) return "–";
     if (varKey === "fbfm40") {
       var codes = (manifest.static_variables.fbfm40 && manifest.static_variables.fbfm40.codes) || {};
-      return codes[String(rawValue)] || ("Code " + rawValue);
+      return trLabel(codes[String(rawValue)]) || (t("code") + " " + rawValue);
     }
     var spec = getVariableSpec(varKey);
     // daily_probability's raw values are a 0-1 fraction; every other "%"
     // variable (canopy cover) is already stored 0-100.
     var value = varKey === "daily_probability" ? rawValue * 100 : rawValue;
     return spec.unit === "%"
-      ? (Math.round(value * 10) / 10) + "%"
-      : (Math.round(value * 100) / 100) + " " + spec.unit;
+      ? formatNumber(value, 1) + "%"
+      : formatNumber(value, 2) + " " + spec.unit;
   }
 
   // Popup rows mix event-scoped and static variables, but the left/right
@@ -152,7 +255,7 @@
     var evt = findEvent(eventSelect.value);
     var entry = (evt && evt.scenarios && evt.scenarios[scenarioKey]) ||
       (manifest.static_scenarios && manifest.static_scenarios[scenarioKey]);
-    return (entry && entry.label) || fallback;
+    return trLabel(entry && entry.label) || fallback;
   }
 
   // Strips a climate variant suffix (e.g. "none_SSP5-2050" -> "none") so
@@ -174,14 +277,14 @@
       var controlVal = valueFromScenarioGrid(grid && grid[leftKey], key, latlng.lat, latlng.lng);
       var nbsVal = valueFromScenarioGrid(grid && grid[rightKey], key, latlng.lat, latlng.lng);
       return (
-        "<tr><th>" + getVariableSpec(key).label + "</th>" +
+        "<tr><th>" + trLabel(getVariableSpec(key).label) + "</th>" +
         "<td>" + formatPointValue(key, controlVal) + "</td>" +
         "<td>" + formatPointValue(key, nbsVal) + "</td></tr>"
       );
     }).join("");
 
-    var leftLabel = scenarioLabel(leftScenario, "Control");
-    var rightLabel = scenarioLabel(rightScenario, "NbS");
+    var leftLabel = scenarioLabel(leftScenario, t("control"));
+    var rightLabel = scenarioLabel(rightScenario, t("nbs"));
 
     return (
       "<div class=\"point-popup\">" +
@@ -192,7 +295,7 @@
   }
 
   function onMapClick(e) {
-    var popup = L.popup({ maxWidth: 320 }).setLatLng(e.latlng).setContent("Loading…").openOn(map);
+    var popup = L.popup({ maxWidth: 320 }).setLatLng(e.latlng).setContent(t("loading")).openOn(map);
 
     var evt = findEvent(eventSelect.value);
     var eventQueryPath = evt && evt.query_path;
@@ -202,7 +305,7 @@
         popup.setContent(buildPopupHtml(e.latlng, results[0], results[1]));
       })
       .catch(function (err) {
-        popup.setContent("Failed to load point data: " + err);
+        popup.setContent(t("pointDataFailed") + err);
       });
   }
 
@@ -223,7 +326,7 @@
 
   function updateLegend(variableKey) {
     var spec = getVariableSpec(variableKey);
-    legendTitle.textContent = spec.label;
+    legendTitle.textContent = trLabel(spec.label);
 
     if (spec.legend_type === "swatches") {
       legendGradient.hidden = true;
@@ -236,7 +339,7 @@
         chip.className = "legend-swatch-chip";
         chip.style.background = sw.color;
         var label = document.createElement("span");
-        label.textContent = sw.label;
+        label.textContent = trLabel(sw.label);
         item.appendChild(chip);
         item.appendChild(label);
         legendSwatches.appendChild(item);
@@ -288,13 +391,13 @@
     ignitionLayer = L.marker([ign.lat, ign.lon], {
       icon: ignitionIcon(ign.wind_arrow_bearing),
       pane: "ignitionPane",
-      title: "Ignition point",
+      title: t("ignitionPoint"),
     })
       .bindPopup(
-        "<b>Ignition point</b><br>" +
+        "<b>" + t("ignitionPoint") + "</b><br>" +
         ign.lat.toFixed(4) + ", " + ign.lon.toFixed(4) + "<br>" +
-        "Wind from " + Math.round(ign.wind_direction_from) + "° (" + ign.wind_direction_from_compass + ")," +
-        " spreading toward " + ign.wind_arrow_bearing_compass
+        t("windFrom") + " " + Math.round(ign.wind_direction_from) + "° (" + trCompass(ign.wind_direction_from_compass) + ")," +
+        " " + t("spreadingToward") + " " + trCompass(ign.wind_arrow_bearing_compass)
       )
       .addTo(map);
   }
@@ -305,7 +408,7 @@
     var usingStatic = isStaticVariable(currentVariable);
     eventSelect.disabled = usingStatic;
     eventLabel.classList.toggle("disabled", usingStatic);
-    eventLabel.title = usingStatic ? "Not applicable to model input layers (same for every event)" : "";
+    eventLabel.title = usingStatic ? t("staticNotApplicable") : "";
 
     // Climate variants (e.g. SSP5-8.5 2050) only exist for event-scoped
     // simulations, not for static model inputs -- disable scenario choice
@@ -331,8 +434,8 @@
     }
     emptyEl.hidden = true;
 
-    sideLabelLeft.textContent = leftEntry.label;
-    sideLabelRight.textContent = rightEntry.label;
+    sideLabelLeft.textContent = trLabel(leftEntry.label);
+    sideLabelRight.textContent = trLabel(rightEntry.label);
 
     var leftBounds = toLatLngBounds(leftEntry.bounds);
     var rightBounds = toLatLngBounds(rightEntry.bounds);
@@ -344,8 +447,8 @@
       if (pending <= 0) loadingEl.hidden = true;
     }
 
-    leftLayer = L.imageOverlay(leftEntry.variables[currentVariable], leftBounds, { alt: leftEntry.label, pane: "sbsLeftPane" });
-    rightLayer = L.imageOverlay(rightEntry.variables[currentVariable], rightBounds, { alt: rightEntry.label, pane: "sbsRightPane" });
+    leftLayer = L.imageOverlay(leftEntry.variables[currentVariable], leftBounds, { alt: trLabel(leftEntry.label), pane: "sbsLeftPane" });
+    rightLayer = L.imageOverlay(rightEntry.variables[currentVariable], rightBounds, { alt: trLabel(rightEntry.label), pane: "sbsRightPane" });
     leftLayer.once("load", onLoaded);
     rightLayer.once("load", onLoaded);
     leftLayer.addTo(map);
@@ -366,7 +469,7 @@
     try {
       render();
     } catch (err) {
-      showError("Error rendering viewer: " + err);
+      showError(t("renderError") + err);
     }
   }
 
@@ -374,7 +477,7 @@
     manifest.events.forEach(function (evt) {
       var opt = document.createElement("option");
       opt.value = evt.id;
-      opt.textContent = evt.label + (evt.populated ? "" : " (no data yet)");
+      opt.textContent = trLabel(evt.label) + (evt.populated ? "" : t("noDataYet"));
       opt.disabled = !evt.populated;
       eventSelect.appendChild(opt);
     });
@@ -396,7 +499,7 @@
     keys.forEach(function (key) {
       var opt = document.createElement("option");
       opt.value = key;
-      opt.textContent = scenarios[key].label;
+      opt.textContent = trLabel(scenarios[key].label);
       select.appendChild(opt);
     });
     var candidates = [current, baseScenarioOf(current), defaultKey];
@@ -422,7 +525,7 @@
     keys.forEach(function (key) {
       var btn = document.createElement("button");
       btn.type = "button";
-      btn.textContent = getVariableSpec(key).label;
+      btn.textContent = trLabel(getVariableSpec(key).label);
       btn.setAttribute("aria-pressed", key === currentVariable ? "true" : "false");
       btn.addEventListener("click", function () {
         currentVariable = key;
@@ -458,7 +561,7 @@
         })
         .catch(function (err) {
           overlayToggle.checked = false;
-          showError("Failed to load NbS intervention areas: " + err);
+          showError(t("overlayFailed") + err);
         });
     });
   }
@@ -471,7 +574,7 @@
   }
 
   function formatEuro(value) {
-    return "€" + Math.round(value).toLocaleString();
+    return Math.round(value).toLocaleString(LOCALE, { style: "currency", currency: "EUR", maximumFractionDigits: 0 });
   }
 
   function calculateCostEffectiveness() {
@@ -479,36 +582,37 @@
     var suppressionCost = parseFloat(costInputSuppression.value);
     var economicLoss = parseFloat(costInputLoss.value);
     if (!isFinite(adaptationRate) || !isFinite(suppressionCost) || !isFinite(economicLoss)) {
-      window.alert("Enter a number in all three fields.");
+      window.alert(t("enterAllFields"));
       return;
     }
 
     var evt = findEvent(eventSelect.value);
-    costModalEvent.textContent = evt ? evt.label : eventSelect.value;
+    costModalEvent.textContent = evt ? trLabel(evt.label) : eventSelect.value;
 
     var nbsAreaHa = manifest.overlays && manifest.overlays.collserola_pegs && manifest.overlays.collserola_pegs.area_ha;
     if (nbsAreaHa) {
       var adaptationCost = adaptationRate * nbsAreaHa * 10;
-      costAdaptationSummary.textContent =
-        "Adaptation cost over 10 years (NbS intervention area: " + nbsAreaHa.toFixed(1) + " ha): " + formatEuro(adaptationCost);
+      costAdaptationSummary.textContent = t("adaptationSummary")
+        .replace("{area}", formatNumber(nbsAreaHa, 1))
+        .replace("{cost}", formatEuro(adaptationCost));
     } else {
-      costAdaptationSummary.textContent = "NbS intervention area unavailable -- can't estimate adaptation cost.";
+      costAdaptationSummary.textContent = t("adaptationUnavailable");
     }
 
     costResultsTableBody.innerHTML = "";
     COST_SCENARIO_KEYS.forEach(function (key) {
       var scenario = evt && evt.scenarios && evt.scenarios[key];
-      var label = (scenario && scenario.label) || COST_SCENARIO_FALLBACK_LABELS[key];
+      var label = trLabel(scenario && scenario.label) || COST_SCENARIO_FALLBACK_LABELS[key];
       var row = document.createElement("tr");
       if (scenario && typeof scenario.expected_burned_area_ha === "number") {
         var burnedAreaHa = scenario.expected_burned_area_ha;
         var economicCost = (suppressionCost + economicLoss) * burnedAreaHa;
         row.innerHTML =
           "<td>" + label + "</td>" +
-          "<td>" + burnedAreaHa.toFixed(1) + "</td>" +
+          "<td>" + formatNumber(burnedAreaHa, 1) + "</td>" +
           "<td>" + formatEuro(economicCost) + "</td>";
       } else {
-        row.innerHTML = "<td>" + label + "</td><td>No data</td><td>No data</td>";
+        row.innerHTML = "<td>" + label + "</td><td>" + t("noData") + "</td><td>" + t("noData") + "</td>";
       }
       costResultsTableBody.appendChild(row);
     });
@@ -539,7 +643,7 @@
   fetch("manifest.json")
     .then(function (resp) { return resp.json(); })
     .catch(function (err) {
-      showError("Failed to load manifest.json: " + err);
+      showError(t("manifestFailed") + err);
       throw err; // stop the chain below from also running
     })
     .then(function (data) {
@@ -554,6 +658,6 @@
       render();
     })
     .catch(function (err) {
-      if (manifest) showError("Error rendering viewer: " + err);
+      if (manifest) showError(t("renderError") + err);
     });
 })();
